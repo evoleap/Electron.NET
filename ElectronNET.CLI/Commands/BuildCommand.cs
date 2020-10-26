@@ -126,9 +126,10 @@ namespace ElectronNET.CLI.Commands
                 var checkForNodeModulesDirPath = Path.Combine(tempPath, "node_modules");
 
                 if (Directory.Exists(checkForNodeModulesDirPath) == false || parser.Contains(_paramForceNodeInstall) || parser.Contains(_paramPackageJson))
-
-                Console.WriteLine("Start npm install...");
-                ProcessHelper.CmdExecute("npm install --production", tempPath);
+                {
+                    Console.WriteLine("Start npm install...");
+                    ProcessHelper.CmdExecute("npm install --production", tempPath);
+                }
 
                 Console.WriteLine("ElectronHostHook handling started...");
 
@@ -183,10 +184,24 @@ namespace ElectronNET.CLI.Commands
                     manifestFileName = parser.Arguments[_manifest].First();
                 }
 
-                ProcessHelper.CmdExecute($"node build-helper.js " + manifestFileName, tempPath);
+                ProcessHelper.CmdExecute($"node build-helper.js build " + manifestFileName, tempPath);
 
                 Console.WriteLine($"Package Electron App for Platform {platformInfo.ElectronPackerPlatform}...");
                 ProcessHelper.CmdExecute($"npx electron-builder --config=./bin/electron-builder.json --{platformInfo.ElectronPackerPlatform} --{electronArch} -c.electronVersion=9.2.0 {electronParams}", tempPath);
+
+                Console.WriteLine("Building msi installer using wix");
+                Console.WriteLine("Installing dev dependencies in temp path");
+                ProcessHelper.CmdExecute("npm install --only=dev", tempPath);
+                
+                EmbeddedFileHelper.DeployEmbeddedFile(tempPath, "wix-install-builder.mjs");
+                EmbeddedFileHelper.DeployEmbeddedFile(tempPath, "wix-config.json");
+
+                Console.WriteLine("Updating wix configuration");
+                ProcessHelper.CmdExecute($"node build-helper.js postbuild " + manifestFileName + " \"" + buildPath + "\"", tempPath);
+
+                Console.WriteLine("Building wix msi");
+                ProcessHelper.CmdExecute($"node --experimental-modules wix-install-builder.mjs", tempPath);
+
 
                 Console.WriteLine("... done");
 
