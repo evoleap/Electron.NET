@@ -9,15 +9,7 @@ trigger:
 pool:
   vmImage: 'windows-latest'
 
-variables:
-- name: version
-  value: 1.0.0.ci-$(Date:yyyyMMdd)$(Rev:.r)
 steps:
-- task: PowerShell@1
-  inputs:
-    scriptType: 'inlineScript'
-    arguments: '${version}'
-    inlineScript: '$Env:ENETVER=$1'
 - task: PowerShell@1
   inputs:
     scriptType: 'filePath'
