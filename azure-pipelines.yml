@@ -1,0 +1,33 @@
+# .NET Desktop
+# Build and run tests for .NET Desktop or Windows classic desktop solutions.
+# Add steps that publish symbols, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/apps/windows/dot-net
+
+trigger:
+- master
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+- name: version
+  value: 1.0.0.ci-$(Date:yyyyMMdd)$(Rev:.r)
+steps:
+- task: PowerShell@1
+  inputs:
+    scriptType: 'inlineScript'
+    arguments: '${version}'
+    inlineScript: '$Env:ENETVER=$1'
+- task: PowerShell@1
+  inputs:
+    scriptType: 'filePath'
+    scriptName: 'buildReleaseNuGetPackages.cmd'
+- task: NuGetToolInstaller@1
+
+- task: NuGetPublisher@0
+  inputs:
+    searchPattern: '**/*.nupkg;-:**/packages/**/*.nupkg;-:**/*.symbols.nupkg'
+    nuGetFeedType: 'internal'
+    feedName: 'https://evoleap.pkgs.visualstudio.com/_packaging/evoleap/nuget/v3/index.json'
+    nuGetVersion: '3.3.0'
+
