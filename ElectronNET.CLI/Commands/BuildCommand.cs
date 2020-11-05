@@ -200,7 +200,7 @@ namespace ElectronNET.CLI.Commands
                 ProcessHelper.CmdExecute($"node build-helper.js postbuild " + manifestFileName + " \"" + buildPath + "\"", tempPath);
 
                 Console.WriteLine("Building wix msi");
-                ProcessHelper.CmdExecute($"node --experimental-modules wix-install-builder.mjs", tempPath);
+                ProcessHelper.CmdExecute($"node wix-install-builder.mjs", tempPath);
 
 
                 Console.WriteLine("... done");
