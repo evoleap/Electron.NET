@@ -9,7 +9,7 @@ AppVeyor (Win/Linux): [![Build status](https://ci.appveyor.com/api/projects/stat
 
 Travis-CI (Win/macOS/Linux): [![Build Status](https://travis-ci.org/ElectronNET/Electron.NET.svg?branch=master)](https://travis-ci.org/ElectronNET/Electron.NET)
 
-Build cross platform desktop apps with .NET Core 3.1 and ASP.NET NET Core (Razor Pages, MVC), Blazor. 
+Build cross platform desktop apps with .NET 5 and ASP.NET NET Core (Razor Pages, MVC), Blazor. 
 
 Electron.NET is a __wrapper__ around a "normal" Electron application with an embedded ASP.NET Core application. Via our Electron.NET IPC bridge we can invoke Electron APIs from .NET.
 
@@ -26,7 +26,7 @@ Well... there are lots of different approaches how to get a X-plat desktop app r
 
 ## 🛠 Requirements to run:
 
-The current Electron.NET CLI builds Windows/macOS/Linux binaries. Our API uses .NET Core 3.1, so our minimum base OS is the same as [.NET Core 3.1](https://github.com/dotnet/core/blob/master/release-notes/3.1/3.1-supported-os.md).
+The current Electron.NET CLI builds Windows/macOS/Linux binaries. Our API uses .NET 5, so our minimum base OS is the same as [.NET 5](https://github.com/dotnet/core/blob/master/release-notes/5.0/5.0-supported-os.md).
 
 Also you should have installed:
 
@@ -145,7 +145,7 @@ Those three "default" targets will produce x64 packages for those platforms.
 For certain NuGet packages or certain scenarios you may want to build a pure x86 application. To support those things you can define the desired [.NET Core runtime](https://docs.microsoft.com/en-us/dotnet/core/rid-catalog), the [electron platform](https://github.com/electron-userland/electron-packager/blob/master/docs/api.md#platform) and [electron architecture](https://github.com/electron-userland/electron-packager/blob/master/docs/api.md#arch) like this:
 
 ```
-electronize build /target custom win7-x86;win32 /electron-arch ia32 
+electronize build /target custom "win7-x86;win32" /electron-arch ia32 
 ```
 
 The end result should be an electron app under your __/bin/desktop__ folder.
@@ -269,4 +269,17 @@ BrowserWindowOptions browserWindowOptions = new BrowserWindowOptions
     WebPreferences = wp
 }
 
+```
+
+### Dependency Injection
+
+ElectronNET.Api can be added to your DI container within the Startup class. All of the modules available in Electron will be added as Singletons.
+
+```csharp
+using ElectronNET.API;
+
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddElectron()
+}
 ```
