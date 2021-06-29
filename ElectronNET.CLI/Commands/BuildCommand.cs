@@ -204,14 +204,14 @@ namespace ElectronNET.CLI.Commands
                 Console.WriteLine("Installing dev dependencies in temp path");
                 ProcessHelper.CmdExecute("npm install --only=dev", tempPath);
                 
-                EmbeddedFileHelper.DeployEmbeddedFile(tempPath, "wix-install-builder.mjs");
+                EmbeddedFileHelper.DeployEmbeddedFile(tempPath, "wix-install-builder.js");
                 EmbeddedFileHelper.DeployEmbeddedFile(tempPath, "wix-config.json");
 
                 Console.WriteLine("Updating wix configuration");
                 ProcessHelper.CmdExecute($"node build-helper.js postbuild " + manifestFileName + " \"" + buildPath + "\"", tempPath);
 
                 Console.WriteLine("Building wix msi");
-                ProcessHelper.CmdExecute($"node wix-install-builder.mjs", tempPath);
+                ProcessHelper.CmdExecute($"node wix-install-builder.js", tempPath);
 
 
                 Console.WriteLine("... done");
