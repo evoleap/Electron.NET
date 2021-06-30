@@ -60,6 +60,10 @@ else if (process.argv[2] == 'postbuild') {
     wixConfig.manufacturer = manifestFile.author;
     wixConfig.version = manifestFile.build.buildVersion;
     wixConfig.outputDirectory = buildDir;
+    if (manifestFile.ui) 
+    {
+        wixConfig.ui = { enabled: true, template: manifestFile.ui }
+    }
     fs.writeFile('./wix-config.json', JSON.stringify(wixConfig), (error) => {
         if(error) {
             console.log(error.message);
