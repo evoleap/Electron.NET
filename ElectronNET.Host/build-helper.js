@@ -62,7 +62,8 @@ else if (process.argv[2] == 'postbuild') {
     wixConfig.outputDirectory = buildDir;
     if (manifestFile.ui) 
     {
-        wixConfig.ui = { enabled: true, template: manifestFile.ui }
+        const wixUi = fs.readFileSync(manifestFile.ui).toString();
+        wixConfig.ui = { enabled: true, template: wixUi }
     }
     fs.writeFile('./wix-config.json', JSON.stringify(wixConfig), (error) => {
         if(error) {
