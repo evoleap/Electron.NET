@@ -9,8 +9,7 @@
     "author": "Gregor Biswanger",
     "license": "MIT",
     "scripts": {
-        "start": "tsc -p .",
-        "postinstall": "cd ./node_modules/electron-wix-msi && npm install && npm run build"
+        "start": "tsc -p ."
     },
     "dependencies": {
         "dasherize": "^2.0.0",
