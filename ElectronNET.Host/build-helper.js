@@ -69,6 +69,10 @@ else if (process.argv[2] == 'postbuild') {
     {
         wixConfig.upgradeCode = manifestFile.wix.upgradeCode;
     }
+    if (manifestFile.wix && manifestFile.wix.associateExtensions)
+    {
+        wixConfig.associateExtensions = manifestFile.wix.associateExtensions;
+    }
     fs.writeFile('./wix-config.json', JSON.stringify(wixConfig), (error) => {
         if(error) {
             console.log(error.message);
