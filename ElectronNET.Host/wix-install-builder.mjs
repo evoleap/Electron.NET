@@ -1,4 +1,4 @@
-var ewix = require('electron-wix-msi');
+var ewix = require('@evoleap/electron-wix-msi');
 const msiCreatorConf = require('./wix-config')
 // Step 1: Instantiate the MSICreator
 
