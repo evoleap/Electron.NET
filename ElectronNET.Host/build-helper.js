@@ -60,9 +60,18 @@ else if (process.argv[2] == 'postbuild') {
     wixConfig.manufacturer = manifestFile.author;
     wixConfig.version = manifestFile.build.buildVersion;
     wixConfig.outputDirectory = buildDir;
-    if (manifestFile.ui) 
+    if (manifestFile.wix && manifestFile.wix.ui) 
     {
-        wixConfig.ui = { enabled: true, template: manifestFile.ui }
+        const wixUi = fs.readFileSync('./bin/' + manifestFile.wix.ui).toString();
+        wixConfig.ui = { enabled: true, template: wixUi };
+    }
+    if (manifestFile.wix && manifestFile.wix.upgradeCode)
+    {
+        wixConfig.upgradeCode = manifestFile.wix.upgradeCode;
+    }
+    if (manifestFile.wix && manifestFile.wix.associateExtensions)
+    {
+        wixConfig.associateExtensions = manifestFile.wix.associateExtensions;
     }
     fs.writeFile('./wix-config.json', JSON.stringify(wixConfig), (error) => {
         if(error) {
