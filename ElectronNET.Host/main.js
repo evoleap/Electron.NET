@@ -93,7 +93,9 @@ app.on('ready', () => {
 app.on('quit', async (event, exitCode) => {
     await server.close();
     kill(apiProcess.pid, { timeout: 5000 }, function (err) {
-        apiProcess.kill();
+        if (err) { 
+            apiProcess.kill();
+        }
     })
 });
 
