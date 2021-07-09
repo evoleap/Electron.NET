@@ -3,6 +3,7 @@ const { BrowserWindow } = require('electron');
 const { protocol } = require('electron');
 const path = require('path');
 const cProcess = require('child_process').spawn;
+const kill = require("kill-with-style");
 const portscanner = require('portscanner');
 const imageSize = require('image-size');
 let io, server, browserWindows, ipc, apiProcess, loadURL;
@@ -91,7 +92,9 @@ app.on('ready', () => {
 
 app.on('quit', async (event, exitCode) => {
     await server.close();
-    apiProcess.kill();
+    kill(apiProcess.pid, { timeout: 5000 }, function (err) {
+        apiProcess.kill();
+    })
 });
 
 function isSplashScreenEnabled() {
