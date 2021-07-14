@@ -274,7 +274,7 @@ function startAspCoreBackend(electronPort) {
     function startBackend(aspCoreBackendPort) {
         console.log('ASP.NET Core Port: ' + aspCoreBackendPort);
         loadURL = `http://localhost:${aspCoreBackendPort}`;
-        const parameters = [getEnvironmentParameter(), `/electronPort=${electronPort}`, `/electronWebPort=${aspCoreBackendPort}`, ...process.argv.slice(2)];
+        const parameters = [getEnvironmentParameter(), `/electronPort=${electronPort}`, `/electronWebPort=${aspCoreBackendPort}`, ...process.argv.slice(1)];
         let binaryFile = manifestJsonFile.executable;
 
         const os = require('os');
@@ -305,7 +305,7 @@ function startAspCoreBackendWithWatch(electronPort) {
     function startBackend(aspCoreBackendPort) {
         console.log('ASP.NET Core Watch Port: ' + aspCoreBackendPort);
         loadURL = `http://localhost:${aspCoreBackendPort}`;
-        const parameters = ['watch', 'run', getEnvironmentParameter(), `/electronPort=${electronPort}`, `/electronWebPort=${aspCoreBackendPort}`, ...process.argv.slice(2)];
+        const parameters = ['watch', 'run', getEnvironmentParameter(), `/electronPort=${electronPort}`, `/electronWebPort=${aspCoreBackendPort}`, ...process.argv.slice(1)];
 
         var options = {
             cwd: currentBinPath,
