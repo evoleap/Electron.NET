@@ -6,7 +6,7 @@ const fs = require('fs');
 
 if (process.argv[2] == 'build') {
     const builderConfiguration = { ...manifestFile.build };
-    if(process.argv.length > 3) {
+    if(process.argv.length > 4) {
         builderConfiguration.buildVersion = process.argv[4];
     }
     if(builderConfiguration.hasOwnProperty('buildVersion')) {
