@@ -6,6 +6,9 @@ const fs = require('fs');
 
 if (process.argv[2] == 'build') {
     const builderConfiguration = { ...manifestFile.build };
+    if(process.argv.length > 3) {
+        builderConfiguration.buildVersion = process.argv[4];
+    }
     if(builderConfiguration.hasOwnProperty('buildVersion')) {
         // @ts-ignore
         const packageJson = require('./package');
@@ -13,7 +16,7 @@ if (process.argv[2] == 'build') {
         packageJson.author = manifestFile.author || '';
         packageJson.version = builderConfiguration.buildVersion;
         packageJson.description = manifestFile.description || '';
-        
+
         fs.writeFile('./package.json', JSON.stringify(packageJson), (error) => {
             if(error) {
                 console.log(error.message);

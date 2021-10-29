@@ -186,7 +186,7 @@ namespace ElectronNET.API.Entities
         /// currently experimental and may change or be removed in future Electron releases.
         /// </summary>
         [DefaultValue(false)]
-        public bool ContextIsolation { get; set; }
+        public bool ContextIsolation { get; set; } = false;
 
         /// <summary>
         /// Whether to use native window.open(). Defaults to false. This option is currently experimental.
