@@ -1,5 +1,5 @@
 echo "Start building Electron.NET dev stack..."
-ENETVER=13.5.1
+ENETVER=13.5.2
 
 echo "Restore & Build API"
 cd ElectronNET.API && \
