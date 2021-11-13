@@ -55,7 +55,7 @@ if (manifestJsonFile.singleInstance || manifestJsonFile.aspCoreBackendPort) {
         args.forEach(parameter => {
             const words = parameter.split('=');
 
-            if(words.length > 1) {
+            if (words.length > 1) {
                 app.commandLine.appendSwitch(words[0].replace('--', ''), words[1]);
             } else {
                 app.commandLine.appendSwitch(words[0].replace('--', ''));
@@ -103,7 +103,7 @@ app.on('ready', () => {
 app.on('quit', async (event, exitCode) => {
     await server.close();
     kill(apiProcess.pid, { timeout: 5000 }, function (err) {
-        if (err) { 
+        if (err) {
             apiProcess.kill();
         }
     })
@@ -143,8 +143,10 @@ function startSplashScreen() {
         });
         splashScreen.setIgnoreMouseEvents(true);
 
-        app.once('browser-window-created', () => {
-            splashScreen.destroy();
+        app.once('browser-window-created', (_event, window) => {
+            window.once('show', () => {
+                splashScreen.destroy();
+            });
         });
 
         const loadSplashscreenUrl = path.join(__dirname, 'splashscreen', 'index.html') + '?imgPath=' + imageFile;
