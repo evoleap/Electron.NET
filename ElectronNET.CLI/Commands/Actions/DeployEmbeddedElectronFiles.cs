@@ -10,6 +10,7 @@ namespace ElectronNET.CLI.Commands.Actions
 
             EmbeddedFileHelper.DeployEmbeddedFile(tempPath, "main.js");
             EmbeddedFileHelper.DeployEmbeddedFile(tempPath, "package.json");
+            EmbeddedFileHelper.DeployEmbeddedFile(tempPath, ".npmrc");
             EmbeddedFileHelper.DeployEmbeddedFile(tempPath, "build-helper.js");
 
             string hostApiFolder = Path.Combine(tempPath, "api");

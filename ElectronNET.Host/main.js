@@ -3,6 +3,7 @@ const { BrowserWindow } = require('electron');
 const { protocol } = require('electron');
 const path = require('path');
 const cProcess = require('child_process').spawn;
+const kill = require("kill-with-style");
 const portscanner = require('portscanner');
 const { imageSize } = require('image-size');
 
@@ -133,7 +134,11 @@ app.on('quit', async (event, exitCode) => {
     }
 
     if (!detachedProcess) {
-        apiProcess.kill();
+        kill(apiProcess.pid, { timeout: 5000 }, function (err) {
+            if (err) {
+                apiProcess.kill();
+            }
+        })
     }
 });
 
@@ -184,9 +189,11 @@ function startSplashScreen() {
 
         splashScreen.setIgnoreMouseEvents(true);
 
-        app.once('browser-window-created', () => {
-            splashScreen.destroy();
-            splashScreen = null;
+        app.once('browser-window-created', (_event, window) => {
+            window.once('show', () => {
+                splashScreen.destroy();
+                splashScreen = null;
+            });
         });
 
         const loadSplashscreenUrl = path.join(__dirname, 'splashscreen', 'index.html') + '?imgPath=' + imageFile;
@@ -338,7 +345,7 @@ function startAspCoreBackend(electronPort) {
     function startBackend(aspCoreBackendPort) {
         console.log('ASP.NET Core Port: ' + aspCoreBackendPort);
         loadURL = `http://localhost:${aspCoreBackendPort}`;
-        const parameters = [getEnvironmentParameter(), `/electronPort=${electronPort}`, `/electronWebPort=${aspCoreBackendPort}`, `/electronPID=${process.pid}`];
+        const parameters = [getEnvironmentParameter(), `/electronPort=${electronPort}`, `/electronWebPort=${aspCoreBackendPort}`, `/electronPID=${process.pid}`, ...process.argv.slice(1)];
         let binaryFile = manifestJsonFile.executable;
 
         const os = require('os');
@@ -404,7 +411,7 @@ function startAspCoreBackendWithWatch(electronPort) {
     function startBackend(aspCoreBackendPort) {
         console.log('ASP.NET Core Watch Port: ' + aspCoreBackendPort);
         loadURL = `http://localhost:${aspCoreBackendPort}`;
-        const parameters = ['watch', 'run', getEnvironmentParameter(), `/electronPort=${electronPort}`, `/electronWebPort=${aspCoreBackendPort}`, `/electronPID=${process.pid}`];
+        const parameters = ['watch', 'run', getEnvironmentParameter(), `/electronPort=${electronPort}`, `/electronWebPort=${aspCoreBackendPort}`, `/electronPID=${process.pid}`, ...process.argv.slice(1)];
 
         var detachedProcess = false;
         var stdioopt = 'pipe';

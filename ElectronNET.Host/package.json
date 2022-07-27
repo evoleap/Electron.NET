@@ -13,12 +13,14 @@
     },
     "dependencies": {
         "dasherize": "^2.0.0",
+        "kill-with-style": "^1.1.0",
         "electron-updater": "^4.6.5",
         "image-size": "^1.0.0",
         "portscanner": "^2.2.0",
         "socket.io": "^4.4.1"
     },
     "devDependencies": {
+        "@evoleap/electron-wix-msi": "^3.2.2",
         "@typescript-eslint/eslint-plugin": "^5.18.0",
         "@typescript-eslint/parser": "^5.18.0",
         "electron": "^18.0.2",

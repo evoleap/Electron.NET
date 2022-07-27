@@ -227,11 +227,25 @@ namespace ElectronNET.CLI.Commands
 
                 ProcessHelper.CmdExecute(
                     string.IsNullOrWhiteSpace(version)
-                        ? $"node build-helper.js {manifestFileName}"
-                        : $"node build-helper.js {manifestFileName} {version}", tempPath);
+                        ? $"node build-helper.js build {manifestFileName}"
+                        : $"node build-helper.js build {manifestFileName} {version}", tempPath);
 
                 Console.WriteLine($"Package Electron App for Platform {platformInfo.ElectronPackerPlatform}...");
                 ProcessHelper.CmdExecute($"npx electron-builder --config=./bin/electron-builder.json --{platformInfo.ElectronPackerPlatform} --{electronArch} -c.electronVersion={electronVersion} {electronParams}", tempPath);
+
+                Console.WriteLine("Building msi installer using wix");
+                Console.WriteLine("Installing dev dependencies in temp path");
+                ProcessHelper.CmdExecute("npm install --only=dev", tempPath);
+                
+                EmbeddedFileHelper.DeployEmbeddedFile(tempPath, "wix-install-builder.js");
+                EmbeddedFileHelper.DeployEmbeddedFile(tempPath, "wix-config.json");
+
+                Console.WriteLine("Updating wix configuration");
+                ProcessHelper.CmdExecute($"node build-helper.js postbuild " + manifestFileName + " \"" + buildPath + "\"", tempPath);
+
+                Console.WriteLine("Building wix msi");
+                ProcessHelper.CmdExecute($"node wix-install-builder.js", tempPath);
+
 
                 Console.WriteLine("... done");
 
