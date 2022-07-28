@@ -12,7 +12,10 @@
                 "${workspaceRoot}/ElectronNET.CLI/ElectronNET.CLI.csproj"
             ],
             "problemMatcher": "$msCompile",
-            "group": "build"
+            "group": {
+                "_id": "build",
+                "isDefault": false
+            }
         }
     ]
 }
