@@ -55,7 +55,7 @@ namespace ElectronNET.API
                 var mainFileJs = Path.Combine(tempPath, "main.js");
                 if (!File.Exists(mainFileJs))
                 {
-                    throw new Exception("You need to run once the electronize-h5 start command to bootstrap the necessary files");
+                    throw new Exception("You need to run once the electronize start command to bootstrap the necessary files");
                 }
 
                 var nodeModulesDirPath = Path.Combine(tempPath, "node_modules");
@@ -88,7 +88,7 @@ namespace ElectronNET.API
 
                 if (runNpmInstall)
                 {
-                    throw new Exception("You need to run once the electronize-h5 start command to bootstrap the necessary files");
+                    throw new Exception("You need to run once the electronize start command to bootstrap the necessary files");
                 }
 
                 string arguments = "";
