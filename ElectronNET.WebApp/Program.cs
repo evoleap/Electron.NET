@@ -16,7 +16,7 @@ namespace ElectronNET.WebApp
         {
             IWebHostBuilder builder;
 
-#if DEBUG
+#if EXPERIMENT
             var webPort = Electron.Experimental.FreeTcpPort();
             
             await Electron.Experimental.StartElectronForDevelopment(webPort);

@@ -1,6 +1,7 @@
 {
   "executable": "ElectronNET.WebApp",
-  "splashscreen": {
+  "splashscreenDISABLE": {
+    "description": "The splashscreen is disabled because it gets in the way of debugging",
     "imageFile": "/wwwroot/assets/img/about@2x.png"
   },
   "environment": "Production",

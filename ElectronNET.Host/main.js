@@ -262,8 +262,11 @@ function startSplashScreen() {
         //Removed as we want to be able to drag the splash screen: splashScreen.setIgnoreMouseEvents(true);
 
         app.once('browser-window-created', (_event, window) => {
+            //We cannot destroy the window here as this triggers an electron freeze bug (https://github.com/electron/electron/issues/29050)            
             window.once('show', () => {
-                splashScreen.destroy();
+                if (splashScreen) {
+                    splashScreen.hide();
+                }
                 splashScreen = null;
             });
         });
@@ -537,8 +540,6 @@ function startAspCoreBackend(electronPort) {
                 console.log(`stderr: ${data.toString()}`);
             });
         }
-
-        console.log("Finished startBackend");
     }
 }
 
