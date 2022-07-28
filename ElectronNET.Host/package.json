@@ -20,7 +20,7 @@
         "socket.io": "^4.4.1"
     },
     "devDependencies": {
-        "@evoleap/electron-wix-msi": "^3.2.2",
+        "@evoleap/electron-wix-msi": "^4.1.0",
         "@typescript-eslint/eslint-plugin": "^5.18.0",
         "@typescript-eslint/parser": "^5.18.0",
         "electron": "^19.0.9",
