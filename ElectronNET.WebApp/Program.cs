@@ -17,9 +17,6 @@ namespace ElectronNET.WebApp
         {
             IWebHostBuilder builder;
 
-            var authKeySwitch = "/authKey=";
-            var authKey = args.Where(arg => arg.StartsWith(authKeySwitch)).FirstOrDefault();
-
 #if EXPERIMENT
             var webPort = Electron.Experimental.FreeTcpPort();
             
@@ -38,14 +35,6 @@ namespace ElectronNET.WebApp
 #else
             builder = CreateWebHostBuilder(args);
             Debugger.Launch();
-            if (authKey == null)
-            {
-                Electron.ReadAuth();
-            }
-            else
-            {
-                Electron.SetAuth(authKey.Substring(authKeySwitch.Length));
-            }
             builder.UseElectron(args);
 #endif
 

@@ -2,6 +2,7 @@
 using System.Runtime.Versioning;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ElectronNET.API
 {
@@ -11,6 +12,24 @@ namespace ElectronNET.API
     public static partial class Electron
     {
         private static ILoggerFactory loggerFactory;
+        private const string authKeySwitch = "/authKey=";
+
+        /// <summary>
+        /// Read auth from either command args or stdin. Auth key is required for the socket library.
+        /// </summary>
+        /// <param name="args">Command line arguments</param>
+        public static void ReadAuth(string[] args)
+        {
+            var authKey = args.Where(arg => arg.StartsWith(authKeySwitch)).FirstOrDefault();
+            if (authKey == null)
+            {
+                ReadAuth();
+            }
+            else
+            {
+                SetAuth(authKey.Substring(authKeySwitch.Length));
+            }
+        }
 
         /// <summary>
         /// Reads the auth key from the command line. This method must be called first thing.

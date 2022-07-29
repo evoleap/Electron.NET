@@ -52,6 +52,8 @@ namespace ElectronNET.API
                 }
             }
 
+            Electron.ReadAuth(args);
+
             return builder;
         }
     }
