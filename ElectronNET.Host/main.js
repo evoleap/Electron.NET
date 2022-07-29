@@ -556,7 +556,7 @@ function startAspCoreBackendWithWatch(electronPort) {
     function startBackend(aspCoreBackendPort) {
         console.log('.NET watch Port: ' + aspCoreBackendPort);
         loadURL = `http://localhost:${aspCoreBackendPort}`;
-        const parameters = ['watch', 'run', getEnvironmentParameter(), `/electronPort=${electronPort}`, `/electronWebPort=${aspCoreBackendPort}`, `/electronPID=${process.pid}`, ...process.argv.slice(1)];
+        const parameters = ['watch', 'run', getEnvironmentParameter(), `/electronPort=${electronPort}`, `/electronWebPort=${aspCoreBackendPort}`, `/electronPID=${process.pid}`, `/authKey=${auth}`, ...process.argv.slice(1)];
 
         var detachedProcess = false;
         var stdioopt = 'pipe';
