@@ -472,7 +472,7 @@ function startAspCoreBackend(electronPort) {
     function startBackend(aspCoreBackendPort) {
         console.log('.NET Core Port: ' + aspCoreBackendPort);
         loadURL = `http://localhost:${aspCoreBackendPort}`;
-        const parameters = [getEnvironmentParameter(), `/electronPort=${electronPort}`, `/electronWebPort=${aspCoreBackendPort}`, `/electronPID=${process.pid}`, ...process.argv.slice(1)];
+        const parameters = [getEnvironmentParameter(), `/electronPort=${electronPort}`, `/electronWebPort=${aspCoreBackendPort}`, `/electronPID=${process.pid}`, `/authKey=${auth}`, ...process.argv.slice(1)];
         let binaryFile = manifestJsonFile.executable;
 
         const os = require('os');

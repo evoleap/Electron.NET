@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace ElectronNET.WebApp
 {
@@ -15,6 +16,9 @@ namespace ElectronNET.WebApp
         public static async Task Main(string[] args)
         {
             IWebHostBuilder builder;
+
+            var authKeySwitch = "/authKey=";
+            var authKey = args.Where(arg => arg.StartsWith(authKeySwitch)).FirstOrDefault();
 
 #if EXPERIMENT
             var webPort = Electron.Experimental.FreeTcpPort();
@@ -34,7 +38,14 @@ namespace ElectronNET.WebApp
 #else
             builder = CreateWebHostBuilder(args);
             Debugger.Launch();
-            Electron.ReadAuth();
+            if (authKey == null)
+            {
+                Electron.ReadAuth();
+            }
+            else
+            {
+                Electron.SetAuth(authKey.Substring(authKeySwitch.Length));
+            }
             builder.UseElectron(args);
 #endif
 

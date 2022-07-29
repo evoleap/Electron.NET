@@ -36,6 +36,15 @@ namespace ElectronNET.API
         }
 
         /// <summary>
+        /// Set the auth key explicitly
+        /// </summary>
+        /// <param name="authKey">The auth key to set</param>
+        public static void SetAuth(string authKey)
+        {
+            BridgeConnector.AuthKey = authKey;
+        }
+
+        /// <summary>
         /// Sets the logger factory to be used by Electron, if any
         /// </summary>
         public static ILoggerFactory LoggerFactory
