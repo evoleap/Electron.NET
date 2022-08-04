@@ -50,10 +50,8 @@ namespace ElectronNET.API
                 {
                     builder.UseUrls("http://localhost:" + BridgeSettings.WebPort);
                 }
+                Electron.ReadAuth(args);
             }
-
-            Electron.ReadAuth(args);
-
             return builder;
         }
     }
