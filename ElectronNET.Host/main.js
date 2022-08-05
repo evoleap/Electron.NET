@@ -1,4 +1,4 @@
-const { app, nativeTheme, BrowserWindow, protocol } = require('electron');
+﻿const { app, nativeTheme, BrowserWindow, protocol } = require('electron');
 const path = require('path');
 const kill = require("kill-with-style");
 const cProcess = require('child_process');
@@ -103,21 +103,21 @@ if (manifestJsonFile.singleInstance || manifestJsonFile.aspCoreBackendPort) {
         }
 
         args.forEach(parameter => {
-           const words = parameter.split('=');
+            const words = parameter.split('=');
 
-           if(words.length > 1) {
-               app.commandLine.appendSwitch(words[0].replace('--', ''), words[1]);
-           } else {
-               app.commandLine.appendSwitch(words[0].replace('--', ''));
-           }
+            if (words.length > 1) {
+                app.commandLine.appendSwitch(words[0].replace('--', ''), words[1]);
+            } else {
+                app.commandLine.appendSwitch(words[0].replace('--', ''));
+            }
         });
 
         const windows = BrowserWindow.getAllWindows();
         if (windows.length) {
-           if (windows[0].isMinimized()) {
-               windows[0].restore();
-           }
-           windows[0].focus();
+            if (windows[0].isMinimized()) {
+                windows[0].restore();
+            }
+            windows[0].focus();
         }
     });
 
@@ -333,7 +333,7 @@ function startSocketApiBridge(port) {
     // @ts-ignore
     io.on('connection', (socket) => {
         try { console.log('Socket ' + socket.id + ' connected from .NET'); } catch { }
-        
+
         isConnected = true;
         clearTimeout(checkReconnectTimeout);
 
@@ -373,25 +373,25 @@ function startSocketApiBridge(port) {
 
             try { console.log('.NET connected on socket ' + socket.id + ' on ' + new Date()); } catch { }
 
-        if (appApi === undefined) appApi = require('./api/app')(socket, app);
-        if (browserWindows === undefined) browserWindows = require('./api/browserWindows')(socket, app);
-        if (commandLine === undefined) commandLine = require('./api/commandLine')(socket, app);
-        if (autoUpdater === undefined) autoUpdater = require('./api/autoUpdater')(socket);
-        if (ipc === undefined) ipc = require('./api/ipc')(socket);
-        if (menu === undefined) menu = require('./api/menu')(socket);
-        if (dialogApi === undefined) dialogApi = require('./api/dialog')(socket);
-        if (notification === undefined) notification = require('./api/notification')(socket);
-        if (tray === undefined) tray = require('./api/tray')(socket);
-        if (webContents === undefined) webContents = require('./api/webContents')(socket);
-        if (globalShortcut === undefined) globalShortcut = require('./api/globalShortcut')(socket);
-        if (shellApi === undefined) shellApi = require('./api/shell')(socket);
-        if (screen === undefined) screen = require('./api/screen')(socket);
-        if (clipboard === undefined) clipboard = require('./api/clipboard')(socket);
-        if (browserView === undefined) browserView = require('./api/browserView').browserViewApi(socket);
-        if (powerMonitor === undefined) powerMonitor = require('./api/powerMonitor')(socket);
-        if (nativeTheme === undefined) nativeTheme = require('./api/nativeTheme')(socket);
-        if (dock === undefined) dock = require('./api/dock')(socket);
-        if (processApi === undefined) processApi = require('./api/process')(socket);
+            if (appApi === undefined) appApi = require('./api/app')(socket, app);
+            if (browserWindows === undefined) browserWindows = require('./api/browserWindows')(socket, app);
+            if (commandLine === undefined) commandLine = require('./api/commandLine')(socket, app);
+            if (autoUpdater === undefined) autoUpdater = require('./api/autoUpdater')(socket);
+            if (ipc === undefined) ipc = require('./api/ipc')(socket);
+            if (menu === undefined) menu = require('./api/menu')(socket);
+            if (dialogApi === undefined) dialogApi = require('./api/dialog')(socket);
+            if (notification === undefined) notification = require('./api/notification')(socket);
+            if (tray === undefined) tray = require('./api/tray')(socket);
+            if (webContents === undefined) webContents = require('./api/webContents')(socket);
+            if (globalShortcut === undefined) globalShortcut = require('./api/globalShortcut')(socket);
+            if (shellApi === undefined) shellApi = require('./api/shell')(socket);
+            if (screen === undefined) screen = require('./api/screen')(socket);
+            if (clipboard === undefined) clipboard = require('./api/clipboard')(socket);
+            if (browserView === undefined) browserView = require('./api/browserView').browserViewApi(socket);
+            if (powerMonitor === undefined) powerMonitor = require('./api/powerMonitor')(socket);
+            if (nativeTheme === undefined) nativeTheme = require('./api/nativeTheme')(socket);
+            if (dock === undefined) dock = require('./api/dock')(socket);
+            if (processApi === undefined) processApi = require('./api/process')(socket);
 
             socket.on('splashscreen-destroy', () => {
                 if (splashScreen) {
@@ -498,7 +498,7 @@ function startAspCoreBackend(electronPort) {
 
         let binFilePath = path.join(currentBinPath, binaryFile);
 
-        var options = { cwd: currentBinPath, env : env, detached: detachedProcess, stdio: stdioopt };
+        var options = { cwd: currentBinPath, env: env, detached: detachedProcess, stdio: stdioopt };
 
         apiProcess = cProcess.spawn(binFilePath, parameters, options);
 
@@ -556,10 +556,10 @@ function startAspCoreBackendWithWatch(electronPort) {
     function startBackend(aspCoreBackendPort) {
         console.log('.NET watch Port: ' + aspCoreBackendPort);
         loadURL = `http://localhost:${aspCoreBackendPort}`;
-        const parameters = ['watch', 'run', getEnvironmentParameter(), `/electronPort=${electronPort}`, `/electronWebPort=${aspCoreBackendPort}`, `/electronPID=${process.pid}`, `/authKey=${auth}`, ...process.argv.slice(1)];
+        const parameters = ['watch', 'run', `/electronPort=${electronPort}`, `/electronWebPort=${aspCoreBackendPort}`, `/electronPID=${process.pid}`, `/authKey=${auth}`, ...process.argv.slice(1)];
 
-        var detachedProcess = false;
-        var stdioopt = 'pipe';
+        let detachedProcess = false;
+        let stdioopt = 'pipe';
 
         if (manifestJsonFile.hasOwnProperty('detachedProcess')) {
             detachedProcess = manifestJsonFile.detachedProcess;
@@ -574,8 +574,8 @@ function startAspCoreBackendWithWatch(electronPort) {
             env = { ...env, ...manifestJsonFile.variables };
         }
 
-        var options = { cwd: currentBinPath, env: env, detached: detachedProcess, stdio: stdioopt };
-
+        let options = { cwd: currentBinPath, env: env, detached: detachedProcess, stdio: stdioopt };
+        console.log('Starting .NET watch process with parameters: ' + parameters);
         apiProcess = cProcess.spawn('dotnet', parameters, options);
 
         if (!detachedProcess) {
@@ -613,7 +613,7 @@ function startAspCoreBackendWithWatch(electronPort) {
             console.log('Detached from ASP.NET process');
             apiProcess.unref();
         }
-      
+
         apiProcess.stderr.on('data', (data) => {
             console.log(`stderr: ${data.toString()}`);
         });
