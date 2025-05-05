@@ -10,12 +10,17 @@ pool:
   vmImage: 'windows-latest'
 
 steps:
+- task: UseDotNet@2
+  displayName: 'Use .NET Core sdk'
+  inputs:
+    packageType: sdk
+    version: 8.0.408
+    installationPath: $(Agent.ToolsDirectory)/dotnet
 - task: PowerShell@1
   inputs:
     scriptType: 'filePath'
     scriptName: 'buildReleaseNuGetPackages.cmd'
 - task: NuGetToolInstaller@1
-
 - task: NuGetPublisher@0
   inputs:
     searchPattern: '**/*.nupkg;-:**/packages/**/*.nupkg;-:**/*.symbols.nupkg'
