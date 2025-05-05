@@ -28,7 +28,7 @@
     <PackageIcon>PackageIcon.png</PackageIcon>
     <PackAsTool>true</PackAsTool>
     <StartupObject></StartupObject>
-    <TargetFrameworks>net6.0</TargetFrameworks>
+    <TargetFrameworks>net8.0</TargetFrameworks>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
