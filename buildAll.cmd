@@ -13,8 +13,8 @@ dotnet build
 
 echo "Install CLI"
 
-dotnet tool uninstall ElectronNET.CLI -g
-dotnet tool install ElectronNET.CLI -g
+dotnet tool uninstall evoleap.ElectronNET.CLI -g
+dotnet tool install evoleap.ElectronNET.CLI -g
 cd ..
 
 echo "Restore & Build WebApp Demo"
