@@ -76,6 +76,9 @@ else if (process.argv[2] == 'postbuild') {
     if (manifestFile.wix && manifestFile.wix.features) {
         wixConfig.features = manifestFile.wix.features;
     }
+    if (manifestFile.wix && manifestFile.wix.lightSwitches) {
+        wixConfig.lightSwitches = manifestFile.wix.lightSwitches;
+    }
     fs.writeFile('./wix-config.json', JSON.stringify(wixConfig), (error) => {
         if(error) {
             console.log(error.message);
